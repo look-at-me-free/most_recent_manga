@@ -64,6 +64,12 @@
           "path": "chapter_1",
           "type": "chapter",
           "subtitle": "Chapter 1"
+        },
+        {
+          "slug": "chapter_2",
+          "path": "chapter_2",
+          "type": "chapter",
+          "subtitle": "Chapter 2"
         }
       ]
     },
