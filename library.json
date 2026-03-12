@@ -350,6 +350,38 @@
           "subtitle": "Official Extras"
         }
       ]
+    },
+    {
+      "id": 801,
+      "slug": "Attack_on_Titan",
+      "display": "Attack on Titan",
+      "top_pill": true,
+      "entries": [
+        {
+          "slug": "episode_1",
+          "path": "episode_1",
+          "type": "chapter",
+          "subtitle": "Episode 1"
+        },
+        {
+          "slug": "episode_2",
+          "path": "episode_2",
+          "type": "chapter",
+          "subtitle": "Episode 2"
+        },
+        {
+          "slug": "episode_3",
+          "path": "episode_3",
+          "type": "chapter",
+          "subtitle": "Episode 3"
+        },
+        {
+          "slug": "episode_4",
+          "path": "episode_4",
+          "type": "chapter",
+          "subtitle": "Episode 4"
+        }
+      ]
     }
   ]
 }
