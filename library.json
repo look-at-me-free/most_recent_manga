@@ -134,6 +134,54 @@
           "path": "book_1/chapter_3",
           "type": "chapter",
           "subtitle": "Chapter 3"
+        },
+        {
+          "slug": "chapter_4",
+          "path": "book_1/chapter_4",
+          "type": "chapter",
+          "subtitle": "Chapter 4"
+        },
+        {
+          "slug": "chapter_5",
+          "path": "book_1/chapter_5",
+          "type": "chapter",
+          "subtitle": "Chapter 5"
+        },
+        {
+          "slug": "chapter_6",
+          "path": "book_1/chapter_6",
+          "type": "chapter",
+          "subtitle": "Chapter 6"
+        },
+        {
+          "slug": "chapter_7",
+          "path": "book_1/chapter_7",
+          "type": "chapter",
+          "subtitle": "Chapter 7"
+        },
+        {
+          "slug": "chapter_8",
+          "path": "book_1/chapter_8",
+          "type": "chapter",
+          "subtitle": "Chapter 8"
+        },
+        {
+          "slug": "chapter_9",
+          "path": "book_1/chapter_9",
+          "type": "chapter",
+          "subtitle": "Chapter 9"
+        },
+        {
+          "slug": "chapter_10",
+          "path": "book_1/chapter_10",
+          "type": "chapter",
+          "subtitle": "Chapter 10"
+        },
+        {
+          "slug": "chapter_11",
+          "path": "book_1/chapter_11",
+          "type": "chapter",
+          "subtitle": "Chapter 11"
         }
       ]
     },
