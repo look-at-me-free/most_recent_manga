@@ -9,42 +9,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&family=Rampart+One&family=Rubik+Iso&display=swap" rel="stylesheet">
 
+  <script async src="https://a.magsrv.com/ad-provider.js"></script>
   <script>
-    (function () {
-      var isMobile =
-        /android|iphone|ipad|ipod|mobile|tablet|silk|kindle|blackberry|opera mini|iemobile/i.test(navigator.userAgent) ||
-        window.innerWidth <= 980;
-
-      if (isMobile) return;
-
-      var basePath = window.location.pathname.replace(/\/[^\/]*$/, "/");
-      var target = window.location.origin + basePath + "index.html" + window.location.search + window.location.hash;
-      window.location.replace(target);
-    })();
+    window.AdProvider = window.AdProvider || [];
   </script>
 
   <style>
     :root{
       --bg:#080a10;
+      --bg2:#0d1118;
       --ink:#f7f8fb;
-      --muted:rgba(247,248,251,.74);
+      --muted:rgba(247,248,251,.72);
       --muted2:rgba(247,248,251,.5);
-      --stroke:rgba(255,255,255,.12);
+      --stroke:rgba(255,255,255,.1);
+      --stroke-strong:rgba(255,255,255,.18);
       --panel:rgba(255,255,255,.045);
-      --panel2:rgba(255,255,255,.075);
-      --shadow:0 18px 48px rgba(0,0,0,.42);
+      --panel2:rgba(255,255,255,.07);
+      --shadow:0 18px 48px rgba(0,0,0,.38);
       --radius:20px;
+
       --title-font:"Rampart One", system-ui, sans-serif;
       --subtitle-font:"Rubik Iso", system-ui, sans-serif;
       --ui-font:"Handjet", system-ui, sans-serif;
       --pill-font:"Handjet", system-ui, sans-serif;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    *{
-      box-sizing:border-box;
-      -webkit-tap-highlight-color:transparent;
-    }
-
+    *{ box-sizing:border-box; }
     html, body{
       margin:0;
       min-height:100%;
@@ -56,53 +49,53 @@
 
     body{
       background:
-        radial-gradient(900px 520px at 12% 0%, rgba(255,255,255,.06), transparent 58%),
-        radial-gradient(720px 480px at 88% 10%, rgba(255,255,255,.035), transparent 55%),
-        linear-gradient(180deg, #0d1119 0%, #090b11 40%, #080a10 100%);
+        radial-gradient(860px 520px at 15% 0%, rgba(255,255,255,.06), transparent 58%),
+        radial-gradient(700px 460px at 88% 10%, rgba(255,255,255,.035), transparent 55%),
+        linear-gradient(180deg, #0d1119 0%, #090b11 42%, #080a10 100%);
       overflow-x:hidden;
     }
 
     a{ color:inherit; text-decoration:none; }
     button, input{ font:inherit; }
 
-    .mobile-shell{
-      width:100%;
-      max-width:980px;
+    .page-progress{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:9000;
+      height:4px;
+      background:rgba(255,255,255,.05);
+      pointer-events:none;
+      backdrop-filter:blur(10px);
+    }
+
+    .page-progress-bar{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg, rgba(255,255,255,.95), rgba(210,220,255,.78));
+      box-shadow:0 0 18px rgba(255,255,255,.22);
+      transition:width .08s linear;
+    }
+
+    .hero{
+      padding:calc(20px + var(--safe-top)) 14px 12px;
+      border-bottom:1px solid var(--stroke);
+      background:linear-gradient(to bottom, rgba(255,255,255,.055), rgba(255,255,255,.015) 52%, transparent 100%);
+    }
+
+    .hero-inner{
+      max-width:840px;
       margin:0 auto;
-      padding:10px 10px 18px;
-    }
-
-    .mobile-top{
-      position:sticky;
-      top:0;
-      z-index:5000;
-      padding-top:calc(env(safe-area-inset-top, 0px) + 6px);
-      margin-bottom:12px;
-      background:linear-gradient(180deg, rgba(8,10,16,.92), rgba(8,10,16,.84) 72%, rgba(8,10,16,0));
-      backdrop-filter:blur(12px);
-    }
-
-    .mobile-card{
-      border:1px solid var(--stroke);
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .mobile-head{
-      padding:14px;
       display:grid;
       gap:12px;
     }
 
-    .mobile-copy{
-      display:grid;
-      gap:6px;
+    .hero-copy{
       text-align:center;
+      display:grid;
+      gap:8px;
     }
 
-    .mobile-eyebrow{
+    .eyebrow{
       margin:0;
       color:var(--muted2);
       font-family:var(--subtitle-font);
@@ -111,599 +104,545 @@
       text-transform:uppercase;
     }
 
-    .mobile-copy h1{
+    .hero h1{
       margin:0;
       font-family:var(--title-font);
-      font-size:clamp(1.5rem, 7vw, 2.3rem);
-      line-height:1.03;
       font-weight:400;
+      font-size:clamp(2rem, 8vw, 3rem);
+      line-height:1.04;
       letter-spacing:.01em;
-      word-break:break-word;
     }
 
-    .mobile-copy p{
-      margin:0;
+    .hero p{
+      margin:0 auto;
+      max-width:680px;
       color:var(--muted);
       font-family:var(--subtitle-font);
-      font-size:11px;
-      line-height:1.45;
+      font-size:.82rem;
+      line-height:1.55;
       letter-spacing:.02em;
     }
 
-    .mobile-tools{
+    .mobile-shell{
+      max-width:840px;
+      margin:0 auto;
+      padding:12px 14px calc(28px + var(--safe-bottom));
+      display:grid;
+      gap:12px;
+    }
+
+    .search-card,
+    .works-card,
+    .chapter-meta,
+    .note,
+    .traversal-shell{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+    }
+
+    .search-card{
+      padding:12px;
       display:grid;
       gap:10px;
     }
 
-    .mobile-search{
+    .search-row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    .search-input{
       width:100%;
-      min-height:48px;
-      padding:0 14px;
+      min-height:50px;
+      padding:0 16px;
       border-radius:16px;
       border:1px solid rgba(255,255,255,.14);
       outline:none;
-      background:rgba(0,0,0,.22);
+      background:rgba(0,0,0,.24);
       color:var(--ink);
       font-size:15px;
-      line-height:1.2;
+      line-height:1.4;
+      letter-spacing:.01em;
     }
 
-    .mobile-search::placeholder{
-      color:rgba(247,248,251,.42);
-    }
-
-    .mobile-search:focus{
+    .search-input::placeholder{ color:rgba(247,248,251,.42); }
+    .search-input:focus{
       border-color:rgba(255,255,255,.3);
       box-shadow:0 0 0 4px rgba(255,255,255,.06);
     }
 
-    .mobile-meta{
+    .search-stat{
+      min-height:42px;
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .mobile-stat,
-    .mobile-chip{
-      min-height:34px;
-      display:inline-flex;
-      align-items:center;
       justify-content:center;
-      padding:0 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.05);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.055);
       color:var(--muted);
-      font-size:12px;
-      line-height:1;
-    }
-
-    .mobile-chip{
-      cursor:pointer;
-      color:#0f1219;
-      background:#fff;
-      font-weight:700;
-      box-shadow:0 8px 24px rgba(255,255,255,.12);
+      font-size:13px;
+      font-weight:600;
+      text-align:center;
+      padding:0 12px;
     }
 
     .search-results{
-      display:grid;
+      display:flex;
+      flex-wrap:wrap;
       gap:8px;
-      max-height:220px;
-      overflow:auto;
-      overscroll-behavior:contain;
-      -webkit-overflow-scrolling:touch;
     }
 
-    .search-result-pill{
-      appearance:none;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-      color:var(--ink);
-      padding:12px 14px;
-      border-radius:14px;
-      cursor:pointer;
-      font-size:14px;
-      line-height:1.2;
-      text-align:left;
+    .search-result-pill,
+    .mobile-work-trigger,
+    .mobile-chapter-link,
+    .traversal-pill,
+    .dial-track,
+    .sticky-btn{
       font-family:var(--pill-font);
       letter-spacing:.02em;
     }
 
-    .works-shell{
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) 58px;
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:18px;
-      background:rgba(255,255,255,.035);
+    .search-result-pill{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:#fff;
+      color:#0d1017;
+      padding:9px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      line-height:1;
+      font-weight:600;
+      box-shadow:0 8px 24px rgba(255,255,255,.12);
+    }
+
+    .search-helper{
+      margin:0;
+      color:var(--muted2);
+      font-size:13px;
+      line-height:1.55;
+      text-align:center;
+    }
+
+    .works-card{
+      position:relative;
+      padding:14px 46px 14px 14px;
       overflow:hidden;
-      min-height:320px;
+    }
+
+    .works-header{
+      display:grid;
+      gap:6px;
+      margin-bottom:10px;
+      text-align:center;
+    }
+
+    .works-title{
+      margin:0;
+      color:var(--muted2);
+      font-family:var(--subtitle-font);
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .works-copy{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .works-scroll-shell{
+      position:relative;
+      max-height:52vh;
+      min-height:240px;
+      overflow:hidden;
     }
 
     .works-scroll{
-      max-height:420px;
+      max-height:52vh;
       overflow-y:auto;
+      padding-right:8px;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
       overscroll-behavior:contain;
-      -webkit-overflow-scrolling:touch;
-      padding:10px;
-    }
-
-    .works-accordion{
       display:grid;
-      gap:8px;
+      gap:10px;
     }
 
-    .works-dial-rail{
-      border-left:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px 0;
+    .works-scroll::-webkit-scrollbar{
+      width:0;
+      height:0;
     }
 
-    .works-dial-slot{
-      position:relative;
-      width:12px;
-      height:90%;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
-    }
-
-    .works-dial-knob{
-      position:absolute;
-      left:50%;
-      top:0;
-      width:38px;
-      height:38px;
-      transform:translate(-50%, 0);
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.3), rgba(255,255,255,.08) 45%, rgba(0,0,0,.18) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
-      box-shadow:
-        0 8px 20px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.18);
-      cursor:grab;
-      touch-action:none;
-    }
-
-    .works-dial-knob::before{
-      content:"";
-      position:absolute;
-      inset:8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .works-dial-knob::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      top:6px;
-      width:2px;
-      height:10px;
-      transform:translateX(-50%);
-      border-radius:999px;
-      background:rgba(255,255,255,.7);
-    }
-
-    .works-dial-knob.dragging{
-      cursor:grabbing;
-      box-shadow:
-        0 12px 28px rgba(0,0,0,.42),
-        inset 0 1px 0 rgba(255,255,255,.2);
-    }
-
-    .work-block{
+    .mobile-work-item{
       border:1px solid rgba(255,255,255,.1);
-      border-radius:16px;
+      border-radius:18px;
       background:rgba(255,255,255,.04);
       overflow:hidden;
     }
 
-    .work-toggle{
+    .mobile-work-item.active{
+      border-color:rgba(255,255,255,.2);
+      background:rgba(255,255,255,.065);
+    }
+
+    .mobile-work-trigger{
       appearance:none;
       width:100%;
       border:0;
       background:transparent;
       color:var(--ink);
-      padding:14px 16px;
-      text-align:left;
-      font-size:18px;
-      line-height:1.1;
-      font-family:var(--pill-font);
-      letter-spacing:.02em;
+      min-height:52px;
+      padding:0 16px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
       cursor:pointer;
+      font-size:16px;
+      font-weight:700;
+      text-align:left;
     }
 
-    .work-toggle .caret{
-      flex:0 0 auto;
-      width:10px;
-      height:10px;
-      border-right:2px solid rgba(255,255,255,.8);
-      border-bottom:2px solid rgba(255,255,255,.8);
-      transform:rotate(45deg);
-      transition:transform .18s ease;
-      margin-top:-4px;
+    .mobile-work-trigger .label{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
-    .work-block.open .work-toggle .caret{
-      transform:rotate(225deg);
-      margin-top:2px;
+    .mobile-work-trigger .count{
+      color:var(--muted2);
+      font-size:13px;
+      white-space:nowrap;
     }
 
-    .chapter-list{
+    .mobile-chapters{
       display:none;
       padding:0 10px 10px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.08);
+    }
+
+    .mobile-work-item.open .mobile-chapters{
+      display:grid;
+      gap:8px;
+      padding-top:10px;
+    }
+
+    .mobile-chapter-link{
+      appearance:none;
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      background:#fff;
+      color:#0f1219;
+      border-radius:999px;
+      min-height:40px;
+      padding:0 14px;
+      text-align:left;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(255,255,255,.08);
+    }
+
+    .mobile-chapter-link.current{
+      background:#dfe6ff;
+      color:#0a0d14;
+    }
+
+    .works-dial{
+      position:absolute;
+      top:56px;
+      right:8px;
+      bottom:14px;
+      width:28px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:5;
+      touch-action:none;
+    }
+
+    .dial-track{
+      position:relative;
+      width:18px;
+      height:100%;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+
+    .dial-thumb{
+      position:absolute;
+      left:50%;
+      width:18px;
+      height:68px;
+      border-radius:999px;
+      transform:translateX(-50%);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(213,220,241,.92));
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.28),
+        0 0 0 1px rgba(255,255,255,.35) inset;
+    }
+
+    .dial-thumb::before{
+      content:"";
+      position:absolute;
+      inset:12px 5px;
+      border-radius:999px;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(35,40,50,.28) 0 3px,
+          transparent 3px 8px
+        );
+      opacity:.75;
+    }
+
+    .reader{
+      display:grid;
+      gap:12px;
+    }
+
+    .reader-anchor{ display:block; width:100%; height:1px; }
+
+    .image-wrap{
+      border:1px solid var(--stroke);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#000;
+    }
+
+    .image-wrap img{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#000;
+    }
+
+    .chapter-meta{
+      padding:14px 16px;
+      display:grid;
+      gap:10px;
+    }
+
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .chapter-tag{
+      display:inline-flex;
+      align-items:center;
+      min-height:38px;
+      padding:0 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      color:var(--muted);
+      font-size:13px;
+      font-weight:600;
+      line-height:1;
+    }
+
+    .chapter-note,
+    .note{
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .note{
+      padding:14px 16px;
+    }
+
+    .traversal-shell{
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+
+    .traversal-kicker{
+      margin:0;
+      color:var(--muted2);
+      text-align:center;
+      font-family:var(--subtitle-font);
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .traversal-bar{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
       gap:8px;
     }
 
-    .work-block.open .chapter-list{
-      display:grid;
-    }
-
-    .chapter-link{
-      display:block;
-      padding:11px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.05);
+    .traversal-pill{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:#fff;
+      color:#0f1219;
+      min-height:42px;
+      padding:0 10px;
+      border-radius:999px;
+      cursor:pointer;
       font-size:14px;
-      line-height:1.2;
+      line-height:1;
+      font-weight:700;
+      box-shadow:0 8px 22px rgba(255,255,255,.12);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .traversal-pill:disabled{
+      opacity:.45;
+      cursor:default;
+      box-shadow:none;
+    }
+
+    .chapter-progress-chip{
+      position:fixed;
+      left:12px;
+      right:12px;
+      bottom:calc(12px + var(--safe-bottom));
+      z-index:8000;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      background:rgba(12,14,20,.84);
+      backdrop-filter:blur(14px);
+      box-shadow:0 22px 60px rgba(0,0,0,.42);
+      padding:10px 12px;
+      display:grid;
+      gap:7px;
+    }
+
+    .chapter-progress-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .chapter-progress-label{ color:var(--ink); }
+
+    .chapter-progress-track{
+      width:100%;
+      height:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+
+    .chapter-progress-fill{
+      width:0%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, #ffffff, #ced9ff);
+      transition:width .08s linear;
+      box-shadow:0 0 14px rgba(255,255,255,.2);
+    }
+
+    .search-jump-fab{
+      position:fixed;
+      right:12px;
+      bottom:calc(92px + var(--safe-bottom));
+      z-index:8000;
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:#fff;
+      color:#0f1219;
+      min-height:44px;
+      padding:0 16px;
+      border-radius:999px;
+      cursor:pointer;
       font-family:var(--pill-font);
-      letter-spacing:.02em;
-    }
-
-    .chapter-link.current{
-      background:#dfe6ff;
-      color:#0a0d14;
-      border-color:transparent;
-    }
-
-    .mobile-bottom-space{
-      height:16px;
-    }
-
-    @media (min-width:700px){
-      .mobile-shell{
-        padding-left:14px;
-        padding-right:14px;
-      }
+      font-size:14px;
+      font-weight:700;
+      box-shadow:0 12px 28px rgba(255,255,255,.14);
     }
   </style>
 </head>
 <body data-reader-mode="mobile">
-  <div class="mobile-shell">
-    <header class="mobile-top">
-      <div class="mobile-card">
-        <div class="mobile-head">
-          <div class="mobile-copy">
-            <p class="mobile-eyebrow">Archive Reader</p>
-            <h1 id="workTitle">Wallace Archive</h1>
-            <p>Browse by title. Scroll the list. Open what you want.</p>
-          </div>
-
-          <div class="mobile-tools">
-            <input
-              id="chapterSearchInput"
-              class="mobile-search"
-              type="search"
-              placeholder="Search works and chapters…"
-              autocomplete="off"
-            />
-
-            <div class="mobile-meta">
-              <div class="mobile-stat" id="chapterSearchStat">Type to search</div>
-              <button class="mobile-chip" id="scrollToWorksBtn" type="button">To Works</button>
-            </div>
-
-            <div class="search-results" id="chapterSearchResults"></div>
-
-            <div class="works-shell" id="worksShell">
-              <div class="works-scroll" id="worksScroll">
-                <div class="works-accordion" id="worksAccordion"></div>
-              </div>
-
-              <div class="works-dial-rail">
-                <div class="works-dial-slot" id="worksDialSlot">
-                  <div class="works-dial-knob" id="worksDialKnob"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="mobile-bottom-space"></div>
+  <div class="page-progress" aria-hidden="true">
+    <div class="page-progress-bar" id="pageProgressBar"></div>
   </div>
 
-  <script>
-    (() => {
-      "use strict";
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Archive Reader · Mobile</p>
+        <h1 id="workTitle">Loading…</h1>
+        <p>Clean scroll. Big pages. No false taps.</p>
+      </div>
+    </div>
+  </header>
 
-      const LIBRARY_FILE = "library.json";
+  <main class="mobile-shell">
+    <section class="search-card" id="searchBarAnchor" aria-label="Reader search">
+      <div class="search-row">
+        <input
+          id="chapterSearchInput"
+          class="search-input"
+          type="search"
+          placeholder="Search works and chapters…"
+          autocomplete="off"
+        />
+        <div class="search-stat" id="chapterSearchStat">Type to search</div>
+      </div>
+      <div class="search-results" id="chapterSearchResults"></div>
+      <p class="search-helper">Pick a work, open its chapters, then jump straight into the reader.</p>
+    </section>
 
-      function normalizeKey(value) {
-        return String(value ?? "").trim().toLowerCase();
-      }
+    <section class="works-card" aria-label="Works navigation">
+      <div class="works-header">
+        <p class="works-title">Works</p>
+        <p class="works-copy">Tap a title to open its chapters. Use the visible dial to glide down the list without stray presses.</p>
+      </div>
 
-      function titleCaseSlug(slug) {
-        return String(slug ?? "")
-          .replace(/[_-]+/g, " ")
-          .replace(/\s+/g, " ")
-          .trim()
-          .replace(/\b\w/g, ch => ch.toUpperCase());
-      }
+      <div class="works-scroll-shell">
+        <div class="works-scroll" id="worksNav"></div>
+      </div>
 
-      function getQueryState() {
-        const url = new URL(window.location.href);
-        return {
-          dir: url.searchParams.get("dir") || "",
-          file: url.searchParams.get("file") || ""
-        };
-      }
+      <div class="works-dial" id="worksDial" aria-hidden="true">
+        <div class="dial-track" id="dialTrack">
+          <div class="dial-thumb" id="dialThumb"></div>
+        </div>
+      </div>
+    </section>
 
-      function mobileHref(dir, file) {
-        const basePath = window.location.pathname.replace(/\/[^\/]*$/, "/");
-        const href = new URL(window.location.origin + basePath + "mobile.html");
-        href.searchParams.set("dir", dir);
-        href.searchParams.set("file", file);
-        return href.toString();
-      }
+    <main class="reader" id="reader"></main>
+  </main>
 
-      function clearSearchResultsIfEmpty() {
-        const input = document.getElementById("chapterSearchInput");
-        const results = document.getElementById("chapterSearchResults");
-        const stat = document.getElementById("chapterSearchStat");
+  <aside class="chapter-progress-chip" aria-label="Chapter progress">
+    <div class="chapter-progress-top">
+      <span class="chapter-progress-label" id="chapterProgressLabel">Chapter Progress</span>
+      <span id="chapterProgressPercent">0%</span>
+    </div>
+    <div class="chapter-progress-track">
+      <div class="chapter-progress-fill" id="chapterProgressFill"></div>
+    </div>
+  </aside>
 
-        if (!input || !results || !stat) return;
+  <button class="search-jump-fab" id="scrollToSearchBtn" type="button">Search</button>
 
-        if (!input.value.trim()) {
-          results.innerHTML = "";
-          stat.textContent = "Type to search";
-        }
-      }
-
-      function wireWorksDial() {
-        const worksScroll = document.getElementById("worksScroll");
-        const slot = document.getElementById("worksDialSlot");
-        const knob = document.getElementById("worksDialKnob");
-
-        if (!worksScroll || !slot || !knob) return;
-
-        let dragging = false;
-        let startY = 0;
-        let startTop = 0;
-
-        function getMaxKnobTop() {
-          return Math.max(0, slot.clientHeight - knob.offsetHeight);
-        }
-
-        function syncKnobToScroll() {
-          const maxScroll = worksScroll.scrollHeight - worksScroll.clientHeight;
-          const maxKnobTop = getMaxKnobTop();
-
-          if (maxScroll <= 0) {
-            knob.style.top = "0px";
-            return;
-          }
-
-          const ratio = worksScroll.scrollTop / maxScroll;
-          knob.style.top = `${ratio * maxKnobTop}px`;
-        }
-
-        function syncScrollToKnob(topPx) {
-          const maxKnobTop = getMaxKnobTop();
-          const maxScroll = worksScroll.scrollHeight - worksScroll.clientHeight;
-
-          if (maxKnobTop <= 0 || maxScroll <= 0) {
-            worksScroll.scrollTop = 0;
-            return;
-          }
-
-          const clamped = Math.max(0, Math.min(maxKnobTop, topPx));
-          const ratio = clamped / maxKnobTop;
-          worksScroll.scrollTop = ratio * maxScroll;
-        }
-
-        worksScroll.addEventListener("scroll", syncKnobToScroll, { passive: true });
-        window.addEventListener("resize", syncKnobToScroll);
-
-        knob.addEventListener("pointerdown", (e) => {
-          dragging = true;
-          startY = e.clientY;
-          startTop = parseFloat(knob.style.top || "0") || 0;
-          knob.classList.add("dragging");
-          knob.setPointerCapture(e.pointerId);
-          e.preventDefault();
-        });
-
-        knob.addEventListener("pointermove", (e) => {
-          if (!dragging) return;
-          const delta = e.clientY - startY;
-          syncScrollToKnob(startTop + delta);
-        });
-
-        function stopDrag(e) {
-          if (!dragging) return;
-          dragging = false;
-          knob.classList.remove("dragging");
-          if (e?.pointerId != null) {
-            try { knob.releasePointerCapture(e.pointerId); } catch {}
-          }
-        }
-
-        knob.addEventListener("pointerup", stopDrag);
-        knob.addEventListener("pointercancel", stopDrag);
-
-        slot.addEventListener("click", (e) => {
-          if (e.target === knob) return;
-
-          const rect = slot.getBoundingClientRect();
-          const desiredTop = e.clientY - rect.top - knob.offsetHeight / 2;
-          syncScrollToKnob(desiredTop);
-        });
-
-        syncKnobToScroll();
-      }
-
-      function renderSearchResults(works, query) {
-        const results = document.getElementById("chapterSearchResults");
-        const stat = document.getElementById("chapterSearchStat");
-        if (!results || !stat) return;
-
-        const q = normalizeKey(query);
-        if (!q) {
-          results.innerHTML = "";
-          stat.textContent = "Type to search";
-          return;
-        }
-
-        const rows = [];
-        for (const work of works) {
-          for (const entry of work.entries || []) {
-            const workLabel = work.display || titleCaseSlug(work.slug);
-            const entryLabel = entry.subtitle || titleCaseSlug(entry.slug);
-            const key = normalizeKey(`${workLabel} ${entryLabel} ${entry.slug}`);
-
-            if (key.includes(q)) {
-              rows.push({
-                dir: work.slug,
-                file: entry.slug,
-                label: `${workLabel} · ${entryLabel}`
-              });
-            }
-          }
-        }
-
-        const limited = rows.slice(0, 12);
-
-        if (!limited.length) {
-          results.innerHTML = "";
-          stat.textContent = "No matches";
-          return;
-        }
-
-        stat.textContent = `${limited.length} result${limited.length === 1 ? "" : "s"}`;
-        results.innerHTML = limited.map(item => `
-          <button class="search-result-pill" type="button" data-dir="${item.dir}" data-file="${item.file}">
-            ${item.label}
-          </button>
-        `).join("");
-      }
-
-      async function loadAccordion() {
-        const host = document.getElementById("worksAccordion");
-        const searchInput = document.getElementById("chapterSearchInput");
-        const searchResults = document.getElementById("chapterSearchResults");
-
-        if (!host) return;
-
-        const res = await fetch(LIBRARY_FILE, { cache: "no-store" });
-        if (!res.ok) throw new Error("Failed to load library.json");
-
-        const data = await res.json();
-        const works = Array.isArray(data.works) ? data.works : [];
-        const state = getQueryState();
-
-        let html = "";
-
-        for (const work of works) {
-          const workLabel = work.display || titleCaseSlug(work.slug);
-          const isCurrentWork = normalizeKey(work.slug) === normalizeKey(state.dir);
-
-          html += `
-            <section class="work-block">
-              <button class="work-toggle" type="button">
-                <span>${workLabel}</span>
-                <span class="caret"></span>
-              </button>
-              <div class="chapter-list">
-          `;
-
-          for (const entry of work.entries || []) {
-            const entryLabel = entry.subtitle || titleCaseSlug(entry.slug);
-            const isCurrent =
-              isCurrentWork && normalizeKey(entry.slug) === normalizeKey(state.file);
-
-            html += `
-              <a class="chapter-link${isCurrent ? " current" : ""}" href="${mobileHref(work.slug, entry.slug)}">
-                ${workLabel} · ${entryLabel}
-              </a>
-            `;
-          }
-
-          html += `
-              </div>
-            </section>
-          `;
-        }
-
-        host.innerHTML = html;
-
-        host.addEventListener("click", (e) => {
-          const btn = e.target.closest(".work-toggle");
-          if (!btn) return;
-
-          const block = btn.closest(".work-block");
-          if (!block) return;
-
-          block.classList.toggle("open");
-        });
-
-        if (searchInput) {
-          searchInput.addEventListener("input", () => {
-            renderSearchResults(works, searchInput.value);
-          });
-        }
-
-        if (searchResults) {
-          searchResults.addEventListener("click", (e) => {
-            const btn = e.target.closest("button[data-dir][data-file]");
-            if (!btn) return;
-
-            window.location.href = mobileHref(btn.dataset.dir, btn.dataset.file);
-          });
-        }
-      }
-
-      function wireButtons() {
-        const toWorksBtn = document.getElementById("scrollToWorksBtn");
-        const worksShell = document.getElementById("worksShell");
-
-        if (toWorksBtn && worksShell) {
-          toWorksBtn.addEventListener("click", () => {
-            worksShell.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          });
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        wireButtons();
-        clearSearchResultsIfEmpty();
-
-        loadAccordion()
-          .then(() => {
-            wireWorksDial();
-          })
-          .catch(console.error);
-
-        const searchInput = document.getElementById("chapterSearchInput");
-        if (searchInput) {
-          searchInput.addEventListener("input", clearSearchResultsIfEmpty);
-        }
-      });
-    })();
-  </script>
+  <script defer src="index.js"></script>
 </body>
 </html>
