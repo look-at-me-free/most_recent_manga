@@ -1,4 +1,3 @@
-
 (() => {
   "use strict";
 
@@ -12,6 +11,7 @@
   const READ_PROGRESS_PREFETCH = 0.7;
   const BOTTOM_GLOW_PROGRESS = 0.95;
   const SEARCH_RESULTS_LIMIT = 12;
+  const IS_MOBILE_READER = document.body?.dataset?.readerMode === "mobile";
 
   const ZONES = {
     topBanner: 5865232,
@@ -83,6 +83,7 @@
   }
 
   function fillSlot(el, zoneId, sub = 1, sub2 = 1, sub3 = 1) {
+    if (!el) return;
     refillSlot(el, zoneId, sub, sub2, sub3);
     serveAds();
   }
@@ -244,8 +245,14 @@
   }
 
   function fillRailStacks(subids) {
-    const leftSlots = ["leftRailSlot1","leftRailSlot2","leftRailSlot3","leftRailSlot4","leftRailSlot5","leftRailSlot6","leftRailSlot7","leftRailSlot8","leftRailSlot9","leftRailSlot10","leftRailSlot11","leftRailSlot12"];
-    const rightSlots = ["rightRailSlot1","rightRailSlot2","rightRailSlot3","rightRailSlot4","rightRailSlot5","rightRailSlot6","rightRailSlot7","rightRailSlot8","rightRailSlot9","rightRailSlot10","rightRailSlot11","rightRailSlot12"];
+    const leftSlots = [
+      "leftRailSlot1","leftRailSlot2","leftRailSlot3","leftRailSlot4","leftRailSlot5","leftRailSlot6",
+      "leftRailSlot7","leftRailSlot8","leftRailSlot9","leftRailSlot10","leftRailSlot11","leftRailSlot12"
+    ];
+    const rightSlots = [
+      "rightRailSlot1","rightRailSlot2","rightRailSlot3","rightRailSlot4","rightRailSlot5","rightRailSlot6",
+      "rightRailSlot7","rightRailSlot8","rightRailSlot9","rightRailSlot10","rightRailSlot11","rightRailSlot12"
+    ];
 
     leftSlots.forEach((id, index) => {
       fillSlot(document.getElementById(id), ZONES.leftRail, subids.left, subids.work, index + 1);
@@ -336,7 +343,11 @@
     const stat = document.getElementById("chapterSearchStat");
     if (!input || !stat) return;
     if (input.value.trim()) return;
-    const seeded = flattenEntries().filter(item => item.workSlug === CURRENT_WORK?.slug).slice(0, SEARCH_RESULTS_LIMIT);
+
+    const seeded = flattenEntries()
+      .filter(item => item.workSlug === CURRENT_WORK?.slug)
+      .slice(0, SEARCH_RESULTS_LIMIT);
+
     renderSearchResults(seeded);
     stat.textContent = seeded.length ? `Showing ${seeded.length} in this work` : "Ready to jump";
   }
@@ -444,15 +455,21 @@
     bar.className = "traversal-bar";
     const { entries, prev, next } = getEntryContext();
 
-    if (prev) bar.appendChild(makeTraversalPill("← Previous", () => switchEntry(CURRENT_WORK.slug, prev.slug, false)));
+    if (prev) {
+      bar.appendChild(makeTraversalPill("← Previous", () => switchEntry(CURRENT_WORK.slug, prev.slug, false)));
+    }
 
     for (const entry of entries) {
       const isCurrent = normalizeKey(entry.slug) === normalizeKey(CURRENT_ENTRY?.slug);
       const label = entry.subtitle || titleCaseSlug(entry.slug);
-      bar.appendChild(makeTraversalPill(label, () => switchEntry(CURRENT_WORK.slug, entry.slug, false), isCurrent ? "current" : ""));
+      bar.appendChild(
+        makeTraversalPill(label, () => switchEntry(CURRENT_WORK.slug, entry.slug, false), isCurrent ? "current" : "")
+      );
     }
 
-    if (next) bar.appendChild(makeTraversalPill("Next →", () => switchEntry(CURRENT_WORK.slug, next.slug, false)));
+    if (next) {
+      bar.appendChild(makeTraversalPill("Next →", () => switchEntry(CURRENT_WORK.slug, next.slug, false)));
+    }
 
     shell.appendChild(bar);
     return shell;
@@ -511,13 +528,28 @@
   function startRefreshTimers() {
     clearRefreshTimers();
 
+    if (IS_MOBILE_READER) return;
+
     railRefreshTimer = window.setInterval(() => {
       if (document.hidden || !CURRENT_ITEM) return;
       const subids = getSubids(CURRENT_ITEM);
-      const leftSlots = ["leftRailSlot1","leftRailSlot2","leftRailSlot3","leftRailSlot4","leftRailSlot5","leftRailSlot6","leftRailSlot7","leftRailSlot8","leftRailSlot9","leftRailSlot10","leftRailSlot11","leftRailSlot12"];
-      const rightSlots = ["rightRailSlot1","rightRailSlot2","rightRailSlot3","rightRailSlot4","rightRailSlot5","rightRailSlot6","rightRailSlot7","rightRailSlot8","rightRailSlot9","rightRailSlot10","rightRailSlot11","rightRailSlot12"];
-      leftSlots.forEach((id, index) => refillSlot(document.getElementById(id), ZONES.leftRail, subids.left, subids.work, index + 1));
-      rightSlots.forEach((id, index) => refillSlot(document.getElementById(id), ZONES.rightRail, subids.right, subids.work, index + 1));
+      const leftSlots = [
+        "leftRailSlot1","leftRailSlot2","leftRailSlot3","leftRailSlot4","leftRailSlot5","leftRailSlot6",
+        "leftRailSlot7","leftRailSlot8","leftRailSlot9","leftRailSlot10","leftRailSlot11","leftRailSlot12"
+      ];
+      const rightSlots = [
+        "rightRailSlot1","rightRailSlot2","rightRailSlot3","rightRailSlot4","rightRailSlot5","rightRailSlot6",
+        "rightRailSlot7","rightRailSlot8","rightRailSlot9","rightRailSlot10","rightRailSlot11","rightRailSlot12"
+      ];
+
+      leftSlots.forEach((id, index) => {
+        refillSlot(document.getElementById(id), ZONES.leftRail, subids.left, subids.work, index + 1);
+      });
+
+      rightSlots.forEach((id, index) => {
+        refillSlot(document.getElementById(id), ZONES.rightRail, subids.right, subids.work, index + 1);
+      });
+
       serveAds();
     }, RAIL_REFRESH_MS);
 
@@ -600,11 +632,13 @@
 
     const state = getQueryState();
     let resolved = resolveSelection(state.dir, state.file);
+
     if (!resolved) {
       const first = getFirstEntry();
       resolved = first.work && first.entry ? first : null;
       if (resolved) setQueryState(resolved.work.slug, resolved.entry.slug, true);
     }
+
     if (!resolved) throw new Error("No works found in library.json");
 
     CURRENT_WORK = resolved.work;
@@ -623,8 +657,11 @@
     syncSearchSeed();
 
     const subids = getSubids(manifest);
-    fillSlot(document.getElementById("topBannerSlot"), ZONES.topBanner, subids.top, subids.work, 1);
-    fillRailStacks(subids);
+
+    if (!IS_MOBILE_READER) {
+      fillSlot(document.getElementById("topBannerSlot"), ZONES.topBanner, subids.top, subids.work, 1);
+      fillRailStacks(subids);
+    }
 
     reader.innerHTML = "";
 
@@ -635,6 +672,7 @@
 
     const images = buildImageList(manifest);
     const base = normalizeBaseUrl(manifest.base_url);
+
     if (!base) throw new Error(`Manifest for ${resolved.entry.slug} is missing base_url`);
     if (!images.length) throw new Error(`Manifest for ${resolved.entry.slug} has no images`);
 
@@ -647,21 +685,31 @@
     reader.appendChild(buildTraversal("top"));
 
     const betweenEvery = Number(manifest.ads?.between_every) || 0;
-    const betweenSlots = Number(manifest.ads?.between_slots) || 3;
-    const finalBlock = Math.max(Number(manifest.ads?.final_block) || 0, BOTTOM_AD_COUNT);
+    const betweenSlots = IS_MOBILE_READER ? 1 : (Number(manifest.ads?.between_slots) || 3);
+    const finalBlock = IS_MOBILE_READER ? 0 : Math.max(Number(manifest.ads?.final_block) || 0, BOTTOM_AD_COUNT);
 
     let groupNumber = 0;
     for (let i = 0; i < images.length; i++) {
-      reader.appendChild(imageBlock(`${base}/${images[i]}`, `${manifest.title || resolved.work.display || resolved.work.slug} page ${i + 1}`));
+      reader.appendChild(
+        imageBlock(
+          `${base}/${images[i]}`,
+          `${manifest.title || resolved.work.display || resolved.work.slug} page ${i + 1}`
+        )
+      );
+
       const pageNumber = i + 1;
       const shouldInsertBetween = betweenEvery > 0 && pageNumber % betweenEvery === 0 && pageNumber < images.length;
+
       if (shouldInsertBetween) {
         groupNumber += 1;
         reader.appendChild(betweenAd(manifest, groupNumber, betweenSlots));
       }
     }
 
-    if (finalBlock > 0) reader.appendChild(endAds(manifest, finalBlock));
+    if (finalBlock > 0) {
+      reader.appendChild(endAds(manifest, finalBlock));
+    }
+
     reader.appendChild(buildTraversal("bottom"));
 
     const bottomAnchor = document.createElement("span");
@@ -697,8 +745,10 @@
     boot().catch(err => {
       console.error(err);
       clearRefreshTimers();
+
       const workTitleEl = document.getElementById("workTitle");
       if (workTitleEl) workTitleEl.textContent = "Failed to load work";
+
       const reader = document.getElementById("reader");
       if (reader) {
         reader.innerHTML = `
