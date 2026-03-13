@@ -26,6 +26,7 @@
         { "slug": "chapter_017", "path": "book_2/chapter_017", "type": "chapter", "subtitle": "Chapter 17" }
       ]
     },
+
     {
       "id": 201,
       "slug": "jaja",
@@ -45,6 +46,7 @@
         { "slug": "chapter_11", "path": "book_1/chapter_11", "type": "chapter", "subtitle": "Chapter 11" }
       ]
     },
+
     {
       "id": 301,
       "slug": "golden",
@@ -58,6 +60,7 @@
         { "slug": "chapter_5", "path": "chapter_5", "type": "chapter", "subtitle": "Chapter 5" }
       ]
     },
+
     {
       "id": 401,
       "slug": "bark",
@@ -75,6 +78,7 @@
         { "slug": "chapter_9", "path": "book_3/chapter_9", "type": "chapter", "subtitle": "Chapter 9" }
       ]
     },
+
     {
       "id": 501,
       "slug": "dragonball",
@@ -123,6 +127,7 @@
         { "slug": "chapter_40", "path": "book_3/chapter_40", "type": "chapter", "subtitle": "Chapter 40" }
       ]
     },
+
     {
       "id": 601,
       "slug": "blade_of_the_immortal",
@@ -134,6 +139,7 @@
         { "slug": "chapter_3", "path": "book_1/chapter_3", "type": "chapter", "subtitle": "Chapter 3" }
       ]
     },
+
     {
       "id": 701,
       "slug": "one_piece",
@@ -149,74 +155,6 @@
         { "slug": "chapter_6", "path": "book_1/chapter_6", "type": "chapter", "subtitle": "Chapter 6" },
         { "slug": "chapter_7", "path": "book_1/chapter_7", "type": "chapter", "subtitle": "Chapter 7" },
         { "slug": "official_extras", "path": "book_1/official_extras", "type": "chapter", "subtitle": "Official Extras" }
-      ]
-    },
-    {
-      "id": 801,
-      "slug": "Attack_on_Titan",
-      "display": "Attack on Titan",
-      "top_pill": true,
-      "entries": [
-        { "slug": "episode_1", "path": "episode_1", "type": "chapter", "subtitle": "Episode 1" },
-        { "slug": "episode_2", "path": "episode_2", "type": "chapter", "subtitle": "Episode 2" },
-        { "slug": "episode_3", "path": "episode_3", "type": "chapter", "subtitle": "Episode 3" },
-        { "slug": "episode_4", "path": "episode_4", "type": "chapter", "subtitle": "Episode 4" },
-        { "slug": "episode_5", "path": "episode_5", "type": "chapter", "subtitle": "Episode 5" },
-        { "slug": "episode_6", "path": "episode_6", "type": "chapter", "subtitle": "Episode 6" },
-        { "slug": "episode_7", "path": "episode_7", "type": "chapter", "subtitle": "Episode 7" },
-        { "slug": "episode_8", "path": "episode_8", "type": "chapter", "subtitle": "Episode 8" },
-        { "slug": "episode_9", "path": "episode_9", "type": "chapter", "subtitle": "Episode 9" },
-        { "slug": "episode_10", "path": "episode_10", "type": "chapter", "subtitle": "Episode 10" },
-        { "slug": "episode_11", "path": "episode_11", "type": "chapter", "subtitle": "Episode 11" },
-        { "slug": "episode_12", "path": "episode_12", "type": "chapter", "subtitle": "Episode 12" },
-        { "slug": "episode_13", "path": "episode_13", "type": "chapter", "subtitle": "Episode 13" }
-      ]
-    },
-    {
-      "id": 901,
-      "slug": "Pluto",
-      "display": "Pluto",
-      "top_pill": true,
-      "entries": [
-        { "slug": "Act_1", "path": "Volume_1/Act_1", "type": "chapter", "subtitle": "Volume 1 · Act 1" },
-        { "slug": "Act_2", "path": "Volume_1/Act_2", "type": "chapter", "subtitle": "Volume 1 · Act 2" },
-        { "slug": "Act_3", "path": "Volume_1/Act_3", "type": "chapter", "subtitle": "Volume 1 · Act 3" },
-        { "slug": "Act_4", "path": "Volume_1/Act_4", "type": "chapter", "subtitle": "Volume 1 · Act 4" },
-        { "slug": "Act_5", "path": "Volume_1/Act_5", "type": "chapter", "subtitle": "Volume 1 · Act 5" },
-        { "slug": "Act_6", "path": "Volume_1/Act_6", "type": "chapter", "subtitle": "Volume 1 · Act 6" },
-        { "slug": "Act_7", "path": "Volume_1/Act_7", "type": "chapter", "subtitle": "Volume 1 · Act 7" }
-      ]
-    },
-    {
-      "id": 1001,
-      "slug": "Parasyte",
-      "display": "Parasyte",
-      "top_pill": true,
-      "entries": [
-        { "slug": "chapter_1", "path": "chapter_1", "type": "chapter", "subtitle": "Chapter 1" },
-        { "slug": "chapter_2", "path": "chapter_2", "type": "chapter", "subtitle": "Chapter 2" },
-        { "slug": "chapter_3", "path": "chapter_3", "type": "chapter", "subtitle": "Chapter 3" },
-        { "slug": "chapter_4", "path": "chapter_4", "type": "chapter", "subtitle": "Chapter 4" },
-        { "slug": "chapter_5", "path": "chapter_5", "type": "chapter", "subtitle": "Chapter 5" },
-        { "slug": "chapter_6", "path": "chapter_6", "type": "chapter", "subtitle": "Chapter 6" },
-        { "slug": "chapter_7", "path": "chapter_7", "type": "chapter", "subtitle": "Chapter 7" },
-        { "slug": "chapter_8", "path": "chapter_8", "type": "chapter", "subtitle": "Chapter 8" },
-        { "slug": "chapter_9", "path": "chapter_9", "type": "chapter", "subtitle": "Chapter 9" }
-      ]
-    },
-    {
-      "id": 999,
-      "slug": "death_note",
-      "display": "Death Note",
-      "top_pill": true,
-      "entries": [
-        { "slug": "chapter_1", "path": "volume_1/chapter_1", "type": "chapter", "subtitle": "Chapter 1" },
-        { "slug": "chapter_2", "path": "volume_1/chapter_2", "type": "chapter", "subtitle": "Chapter 2" },
-        { "slug": "chapter_3", "path": "volume_1/chapter_3", "type": "chapter", "subtitle": "Chapter 3" },
-        { "slug": "chapter_4", "path": "volume_1/chapter_4", "type": "chapter", "subtitle": "Chapter 4" },
-        { "slug": "chapter_5", "path": "volume_1/chapter_5", "type": "chapter", "subtitle": "Chapter 5" },
-        { "slug": "chapter_6", "path": "volume_1/chapter_6", "type": "chapter", "subtitle": "Chapter 6" },
-        { "slug": "chapter_7", "path": "volume_1/chapter_7", "type": "chapter", "subtitle": "Chapter 7" }
       ]
     }
   ]
