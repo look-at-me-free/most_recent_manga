@@ -331,7 +331,7 @@
       return { ok:false, status:404, url:joinUrl(baseEntryUrl,"unknown.webp") };
     }
 
-    async function readJsonFile(file) {(file) {
+    async function readJsonFile(file) {
       const text = await file.text();
       return JSON.parse(text);
     }
@@ -494,7 +494,7 @@
               item,
               image:firstImage,
               lastImage,
-              anyOk: !!(item.ok || image.ok)
+              anyOk: !!(item.ok || firstImage.ok || lastImage.ok)
             });
 
             current += 1;
