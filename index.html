@@ -12,18 +12,41 @@
   <script>
     (function () {
       var path = window.location.pathname.toLowerCase();
-
       if (path.includes("mobile.html")) return;
 
-      var isMobile =
-        /android|iphone|ipad|ipod|mobile|tablet|silk|kindle|blackberry|opera mini|iemobile/i.test(navigator.userAgent) ||
-        window.innerWidth <= 980;
+      var LOCK_KEY = "reader_device_lock";
+      var DESKTOP_WIDTH = 1100;
+      var MOBILE_WIDTH = 980;
 
-      if (!isMobile) return;
+      function hasDesktopLock() {
+        try {
+          return localStorage.getItem(LOCK_KEY) === "desktop";
+        } catch (err) {
+          return false;
+        }
+      }
+
+      function setDesktopLock() {
+        try {
+          localStorage.setItem(LOCK_KEY, "desktop");
+        } catch (err) {}
+      }
+
+      function isMobileUA() {
+        return /android|iphone|ipad|ipod|mobile|tablet|silk|kindle|blackberry|opera mini|iemobile/i.test(navigator.userAgent);
+      }
+
+      if (hasDesktopLock()) return;
+
+      if (window.innerWidth >= DESKTOP_WIDTH) {
+        setDesktopLock();
+        return;
+      }
+
+      if (!(isMobileUA() || window.innerWidth <= MOBILE_WIDTH)) return;
 
       var basePath = window.location.pathname.replace(/\/[^\/]*$/, "/");
       var target = window.location.origin + basePath + "mobile.html" + window.location.search + window.location.hash;
-
       window.location.replace(target);
     })();
   </script>
