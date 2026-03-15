@@ -2,7 +2,8 @@
   "version": 1,
   "sources": {
     "a": "https://pub-cd01009a7c6c464aa0b093e33aa5ae51.r2.dev/works",
-    "b": "https://pub-c8b2722cff4d4adb8f15f32075867df5.r2.dev/works"
+    "b": "https://pub-c8b2722cff4d4adb8f15f32075867df5.r2.dev/works",
+    "c": "https://pub-ae2fd7e640274ff2acbc15b6752eee51.r2.dev/works"
 
   },
   "works":  [
@@ -11,7 +12,7 @@
       "slug": "Akira",
       "display": "Akira",
       "top_pill": true,
-      "source": "b",
+      "source": "c",
       "entries": [
         { "slug": "chapter_1", "path": "chapter_1", "type": "chapter", "subtitle": "Chapter 1" },
         { "slug": "chapter_2", "path": "chapter_2", "type": "chapter", "subtitle": "Chapter 2" },
