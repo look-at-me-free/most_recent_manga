@@ -7,6 +7,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//a.magsrv.com">
+  <link rel="dns-prefetch" href="//a.pemsrv.com">
+  <link rel="dns-prefetch" href="//s.pemsrv.com">
   <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&family=Rampart+One&family=Rubik+Iso&display=swap" rel="stylesheet">
 
   <script async src="https://a.magsrv.com/ad-provider.js"></script>
@@ -33,6 +36,7 @@
 
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --sticky-h: 62px;
     }
 
     *{ box-sizing:border-box; }
@@ -125,7 +129,7 @@
     .mobile-shell{
       max-width:840px;
       margin:0 auto;
-      padding:12px 14px calc(28px + var(--safe-bottom));
+      padding:12px 14px calc(110px + var(--safe-bottom));
       display:grid;
       gap:12px;
     }
@@ -135,7 +139,8 @@
     .chapter-meta,
     .note,
     .traversal-shell,
-    .slot{
+    .slot,
+    .recommend-shell{
       border:1px solid var(--stroke);
       border-radius:var(--radius);
       background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
@@ -551,7 +556,7 @@
       position:fixed;
       left:12px;
       right:12px;
-      bottom:calc(12px + var(--safe-bottom));
+      bottom:calc(var(--sticky-h) + 12px + var(--safe-bottom));
       z-index:8000;
       border:1px solid rgba(255,255,255,.14);
       border-radius:18px;
@@ -597,7 +602,7 @@
     .search-jump-fab{
       position:fixed;
       right:12px;
-      bottom:calc(92px + var(--safe-bottom));
+      bottom:calc(var(--sticky-h) + 92px + var(--safe-bottom));
       z-index:8000;
       appearance:none;
       border:1px solid rgba(255,255,255,.16);
@@ -611,6 +616,50 @@
       font-weight:700;
       box-shadow:0 12px 28px rgba(255,255,255,.14);
     }
+
+    .mobile-sticky-wrap{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:8500;
+      min-height:var(--sticky-h);
+      padding:6px 0 calc(6px + var(--safe-bottom));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(10,12,18,.92);
+      backdrop-filter:blur(14px);
+      border-top:1px solid rgba(255,255,255,.1);
+      box-shadow:0 -18px 36px rgba(0,0,0,.35);
+    }
+
+    .mobile-sticky-inner{
+      width:100%;
+      max-width:360px;
+      min-height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 8px;
+    }
+
+    .mobile-sticky-inner ins{
+      display:block !important;
+      margin:0 auto !important;
+    }
+
+    .ad-mount{
+      position:fixed;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+      opacity:0;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    #mobileInterstitialMount{ left:-9999px; top:-9999px; }
 
     @media (max-width: 420px){
       .mobile-work-trigger{
@@ -696,6 +745,48 @@
   </aside>
 
   <button class="search-jump-fab" id="scrollToSearchBtn" type="button">Search</button>
+
+  <div id="mobileInterstitialMount" class="ad-mount" aria-hidden="true"></div>
+
+  <div class="mobile-sticky-wrap" id="mobileStickyWrap">
+    <div class="mobile-sticky-inner" id="mobileStickyMount"></div>
+  </div>
+
+  <script type="application/javascript">
+  (function() {
+    var adConfig = {
+      ads_host: "a.pemsrv.com",
+      syndication_host: "s.pemsrv.com",
+      idzone: 5880070,
+      popup_fallback: false,
+      popup_force: false,
+      chrome_enabled: true,
+      new_tab: false,
+      frequency_period: 60,
+      frequency_count: 1,
+      trigger_method: 3,
+      trigger_class: "",
+      trigger_delay: 0,
+      capping_enabled: true,
+      tcf_enabled: true,
+      only_inline: false
+    };
+
+    var s = document.createElement("script");
+    s.type = "application/javascript";
+    s.async = true;
+    s.src = "//" + adConfig.ads_host + "/popunder1000.js";
+    s.id = "mobile-popmagicldr";
+
+    for (var k in adConfig) {
+      if (!Object.prototype.hasOwnProperty.call(adConfig, k)) continue;
+      if (k === "ads_host" || k === "syndication_host") continue;
+      s.setAttribute("data-exo-" + k, adConfig[k]);
+    }
+
+    document.body.appendChild(s);
+  })();
+  </script>
 
   <script defer src="index.js"></script>
 </body>
