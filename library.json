@@ -7599,12 +7599,16 @@
     }
   ]
 },{
-    "id":  19991666,
-    "slug":  "Berserk",
-    "display":  "Berserk",
-    "top_pill":  true,
-    "source":  "e",
-    "entries":  [
+  "id": 19991666,
+  "slug": "Berserk",
+  "display": "Berserk",
+  "top_pill": true,
+  "source": "e",
+
+  "use_map": true,
+  "map_file": "berserk.json",
+
+  "entries": [
                     {
                         "slug":  "v1_p1",
                         "path":  "volume_01/part_1",
